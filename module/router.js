@@ -1,21 +1,15 @@
 var express = require('express')
-var blog = require('./blog')
-var main = require('./main')
+var blogController = require('./blog')
+var officialController = require('./official')
 
 var router = express.Router()
-
-router.get('/blogApi',(req,res,next)=>{
-  blog(req,res,next,'get')
+blogController(router)
+// officialController(router)
+router.get('/blogApi',(req,res)=>{
+  res.send('get----------blogApi')
 })
-router.post('/blogApi',(req,res,next)=>{
-  blog(req,res,next,'post')
-})
-router.get('/mainApi',(req,res,next)=>{
-  main(req,res,next,'post');
-})
-router.post('/mainApi',(req,res,next)=>{
-  main(req,res,next,'post');
-})
-module.exports = {
-  router: router
-}
+// router.post('/blogApi',(req,res)=>{
+//   res.send('post----------blogApi')
+// })
+console.log(router);
+module.exports =  router
