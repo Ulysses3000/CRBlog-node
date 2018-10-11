@@ -5,7 +5,7 @@ const sendJson = require('../../common/sendJson')
 const PATH_GET = {
   '':(req,res,back)=>{ back(RES_CODE.SUCCESS,'云川api 1.0')},
   'user/login': user.login,
-  // 'user/getFollowing': user.getFollowing,
+  'user/regist': user.regist,
   // 'user/getFollower': user.getFollower,
   // 'user/following': user.following,
 }
