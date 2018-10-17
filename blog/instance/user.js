@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 const User = {
   // 名称 唯一
   name: {
@@ -9,10 +11,15 @@ const User = {
     type: String,
     required: true
   },
-  // 
+  age: Number,
+  sex: {
+    type: Number,
+    default: 0
+  },
   uid: {
     type: Number,
-    autoIndex: true
+    autoIndex: true,
+    default: 188,
   }, 
   alias: {
     type: String,
@@ -28,4 +35,4 @@ const User = {
     default: 0
   }
 }
-module.exports =  User
+module.exports =  new Schema(User)
