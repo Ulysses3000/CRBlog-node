@@ -33,6 +33,10 @@ const User = {
   experience: {
     type: Number,
     default: 0
+  },
+  discarded: {
+    type: Number,
+    default: 0
   }
 }
 module.exports =  new Schema(User)
