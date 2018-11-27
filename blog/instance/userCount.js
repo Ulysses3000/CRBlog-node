@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-const Token = {
+const Count = {
   count: Number // 总数
 }
-module.exports =  new Schema(Token)
+module.exports =  new Schema(Count)

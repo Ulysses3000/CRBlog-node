@@ -12,7 +12,7 @@ const User = {
     required: true
   },
   age: Number,
-  sex: {
+  sex: { // 性别
     type: Number,
     default: 0
   },
@@ -21,20 +21,24 @@ const User = {
     autoIndex: true,
     default: 188,
   }, 
-  alias: {
+  alias: { // 别名
     type: String,
-    default: 'n不v知z名h大a佬ng',
+    default: '萌新',
   }, // 昵称
   mail: String, // 邮箱
   grade: {
     type: Number,
     default: 1
   },
-  experience: {
+  experience: { // 经验
     type: Number,
     default: 0
   },
-  discarded: {
+  role: { // 是否废弃，用于伪删除
+    type: Number,
+    default: 1 // 1 白板之身
+  },
+  discarded: { // 是否废弃，用于伪删除
     type: Number,
     default: 0
   }
