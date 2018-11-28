@@ -4,8 +4,9 @@ const RES_CODE = require('../../common/resCode')
 const dbFn = require('../../db/connect').blogConnect
 const userSchema = require('../instance/user')
 const userCountSchema = require('../instance/userCount')
-const Token = require('../instance/token')
+const utils = require('../../common/utils')
 const redis = require('redis')
+const Md5 = require('../../common/md5')
 
 
 const MAN = 0, WOMAN = 1;
@@ -39,8 +40,8 @@ user.login = (req, res, back) => {
     User.findOne({ name: name }, (err, user) => {
       if (err) { return back(RES_CODE.DB_OPERATE_ERROR, err) }
       console.log(user);
-      if (!user) {back(RES_CODE.SUCCESS, '账号不存在')}
-      if (user.pwd != pwd) {back(RES_CODE.SUCCESS, '账号或密码错误')}
+      if (!user) {return back(  RES_CODE.SUCCESS, '账号不存在')}
+      if (user.pwd != Md5.hex_md5(pwd)) {return back(RES_CODE.SUCCESS, '账号或密码错误')}
       // 链接 redis
       const client = redis.createClient()
       // 获取token
@@ -51,15 +52,25 @@ user.login = (req, res, back) => {
           // 更新角色权限
           userInfo.role = user.role;
         }else{
-          userInfo = JSON.stringify({
-            token: new Token(user.id),
+          userInfo = {
+            token: user.uid + '-' + utils.generateRandomStr(32),
             role: user.role
-          })
+          }
         }
         // 存新的token 并设置过期时间
-        client.setex('user_' + user.id, 7*CONST_TIME_SECOND.ONE_DAY, userInfo, (e, replies) => {
+        client.setex('user_' + user.uid, 7*CONST_TIME_SECOND.ONE_DAY,JSON.stringify( userInfo ), (e, replies) => {
           if (e) return back(RES_CODE.DB_OPERATE_ERROR, e)
-          back(RES_CODE.SUCCESS, replies)
+          let backRes =  {
+            token: userInfo.token,
+            name: user.name,
+            role: user.role,
+            age: user.age,
+            sex: user.sex,
+            id: user.uid,
+            mail: user.mail,
+            alias: user.alias,
+          }
+          back(RES_CODE.SUCCESS,backRes)
           client.quit();
         })
       })
@@ -110,10 +121,10 @@ user.regist = (req, res, back) => {
       return;
     }
     // 创建用户
-    
+    let password = Md5.hex_md5(pwd)
     let oneUser = new User({
       name: name,
-      pwd: pwd,
+      pwd: password,
       mail: mail,
       age: +age ? age : age,
       sex: sex == WOMAN ? WOMAN : MAN,
@@ -135,7 +146,11 @@ user.regist = (req, res, back) => {
   // back(RES_CODE.SUCCESS,'注册成功')
 }
 
+// 非异步 ↓↓↓↓↓↓↓↓↓
+// 非异步 ↑↑↑↑↑↑↑↑↑
+// 异步 ↓↓↓↓↓↓↓↓↓
 async function checkHasUser (User,name){
   let data = await User.find({name:name})
   return data
 }
+// 异步 ↑↑↑↑↑↑↑↑↑
