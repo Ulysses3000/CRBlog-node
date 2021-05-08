@@ -1,21 +1,26 @@
-let user = require('./user')
-const BASE_PATH = '/blogApi/'
-const RES_CODE = require('../../common/resCode')
-const sendJson = require('../../common/sendJson')
-const CODE = require('../../common/resCode')
+import redis from 'redis';
+import { regist } from '../controller/user/regist';
+import { login } from '../controller/user/login';
+import { RES_CODE } from '../../common/resCode';
+import sendJson from '../../common/sendJson';
 
-const redis = require('redis')
+const BASE_PATH = '/api/blog/';
 
-const PATH_GET = {
+const BLOG_API_GET = {
   'hello':(req,res,back)=>{ back(RES_CODE.SUCCESS,'云川api 1.0')},
   'test':(req,res,back)=>{ back(RES_CODE.SUCCESS,'test api')}
 }
-const PATH_POST = {
-  'user/login': user.login,
-  'user/regist': user.regist,
+
+const BLOG_API_POST = {
+  'user/login': login,
+  'user/regist': regist,
 }
+
 let tokenIgnorePath =  ['user/login','user/regist','hello']
-const TOKEN_IGNORE_PATH = tokenIgnorePath.map(v=>{v = BASE_PATH+v;return v}) 
+const TOKEN_IGNORE_PATH = tokenIgnorePath.map(v => { 
+  v = BASE_PATH+v;
+  return v
+}) 
 
 function pathInTokenIgnore(path) {
   return TOKEN_IGNORE_PATH.indexOf(path)>=0;
@@ -28,13 +33,12 @@ async function checkToken(req,res,next) {
       let uid = token.split('-')[0]
       const client = redis.createClient()
       // 获取token
-      client.get('user_' + uid, (e, reply) => {
+      client.get('user_' + uid, (e, redisToken) => {
         if (e) return back(RES_CODE.DB_OPERATE_ERROR, e)
-        let localToken = reply ? JSON.parse(reply).token : ''
-        if(localToken == token){
+        if(redisToken == token){
           next()
         }else{
-          sendJson.throwErrow(res,CODE.TIMEOUT_LOGIN,'登录超时')
+          sendJson.throwErrow(res,CODE.TIMEOUT_LOGIN, '登录超时')
         }
       })
     }else{
@@ -46,11 +50,14 @@ async function checkToken(req,res,next) {
 }
 
 function blogController(router){
+  // 登录验证拦截
   router.use(checkToken)
-  for (let path_get in PATH_GET) {
-    let handle_get = PATH_GET[path_get];
-    router.get(BASE_PATH+path_get,(req,res)=>{
-      handle_get(req,res,(status,data)=>{
+
+  // get 请求在 express 注册
+  for (let path in BLOG_API_GET) {
+    let handle_get = BLOG_API_GET[path];
+    router.get(BASE_PATH + path, (req,res)=>{
+      handle_get(req, res, (status,data) => {
         if(status == RES_CODE.SUCCESS){
           sendJson.sendData(res,data)
         }else{
@@ -59,10 +66,12 @@ function blogController(router){
       })
     })
   }
-  for (let path_post in PATH_POST) {
-    let handle_post = PATH_POST[path_post];
-    router.post(BASE_PATH+path_post,async (req,res)=>{
-      handle_post(req,res,(status,data)=>{
+
+  // post 请求在 express 注册
+  for (let path in BLOG_API_POST) {
+    let handle_post = PATH_POST[path];
+    router.post(BASE_PATH + path, async (req,res)=>{
+      handle_post(req,  res, (status, data) => {
         if(status == RES_CODE.SUCCESS){
           sendJson.sendData(res,data)
         }else{

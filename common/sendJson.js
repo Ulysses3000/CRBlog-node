@@ -1,10 +1,12 @@
-var sendJson = {}
-sendJson.sendData = function (res,data) {
+export function sendJson (res,data) {
   res.json({
     data: data,
     time: +new Date()
   })
 }
+
+sendJson.sendData = (res, data) => { this(res, data) };
+
 sendJson.throwErrow = function (res,code,message) {
   res.json({
     error: {
@@ -14,4 +16,4 @@ sendJson.throwErrow = function (res,code,message) {
   })
 }
 
-module.exports = sendJson
+export default sendJson

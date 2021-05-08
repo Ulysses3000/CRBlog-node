@@ -1,8 +1,11 @@
-module.exports = {
+
+const BlogDBCofig = {
   port: 27017,
   protocol:'mongodb://',
   address: '127.0.0.1',
   user: 'blog',
-  pwd: '123457',
+  pwd: 'crblog',
   dbName: 'blog'
 }
+
+export default BlogDBCofig;
