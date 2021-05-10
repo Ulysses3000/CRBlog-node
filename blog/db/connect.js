@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import blogDbCfg from './db.config';
+const mongoose = require('mongoose')
+const blogDbCfg = require('./db.config')
 
 mongoose.set('debug', true);
 
@@ -14,11 +14,9 @@ let {
 
 const connectUrl = protocol + user + ':' + pwd + '@' + address + ':' + port + '/' + dbName;
 
-export const BlogDB = mongoose.createConnection(connectUrl, {
+exports.BlogDB = mongoose.createConnection(connectUrl, {
   socketTimeoutMS: 0,
   keepAlive: true,
   reconnectTries: 30,
   useNewUrlParser: true
 })
-
-export default BlogDB;

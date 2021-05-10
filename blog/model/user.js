@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { BlogDB } from '../../db/connect';
+const mongoose = require( 'mongoose')
+const { BlogDB } = require( '../db/connect')
 
 const UserSchema = new mongoose.Schema({
   /** 名称 唯一 */
@@ -36,6 +36,6 @@ const UserSchema = new mongoose.Schema({
   discarded: { type: Number,default: 0 }
 })
 
-const User = BlogDB.model('user', userSchema);
+const User = BlogDB.model('user', UserSchema);
 
-export default User;
+module.exports = User;

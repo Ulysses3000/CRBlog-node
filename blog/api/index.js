@@ -1,11 +1,11 @@
-import redis from 'redis';
-import { RES_CODE } from '../../common/resCode';
-import sendJson from '../../common/sendJson';
-import { 
+const redis = require('redis');
+const sendJson = require('../../common/sendJson');
+const { RES_CODE } = require('../../common/resCode');
+const { 
   BLOG_API_USER,
   BLOG_API_TAG,
   BLOG_API_BLOG
-} from './blog'
+} = require('./blog');
 
 const BASE_PATH = '/api/blog/';
 
@@ -46,16 +46,16 @@ function blogController(router){
   // 登录验证拦截
   // router.use(checkToken)
 
-  let allRouter = [].concat(
+  let allRouter = Object.assign({}, 
     BLOG_API_USER,
     BLOG_API_TAG,
     BLOG_API_BLOG
-  )
+  );
 
   // api在 express 注册
   for (let path in allRouter) {
     let { handle, methods } = allRouter[path];
-    router[methods](BASE_PATH + path, (req,res)=>{
+    router[methods](BASE_PATH + path, (req, res)=>{
       handle(req, res, (status,data) => {
         if(status == RES_CODE.SUCCESS){
           sendJson.sendData(res, data)
@@ -67,4 +67,4 @@ function blogController(router){
   }
 }
 
-export default blogController;
+module.exports = blogController;

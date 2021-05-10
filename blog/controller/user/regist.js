@@ -1,8 +1,8 @@
-import { User } from '../../model/user';
-import { generateRandomStr } from '../../../utils/utils'
-import { TIME_SECOND } from './utils'
-import { RES_CODE } from '../../../common/resCode'
-import redis from 'redis';
+const { User } = require( '../../model/user')
+const { generateRandomStr } = require( '../../../utils/utils')
+const { TIME_SECOND } = require( './utils')
+const { RES_CODE } = require( '../../../common/resCode')
+const redis = require( 'redis')
 
 /** 检测注册信息 */
 function checkRegistInfo({ name, pwd }) {
@@ -18,15 +18,15 @@ async function checkHasUser (User,name){
 
 /** 生成一个用户 */
 async function ganerateUser (name, pwd, mail, age, sex, alias, uid) {
-  let age = +age ? age : age
-  let sex = sex == WOMAN ? WOMAN : MAN
+  age = +age ? age : age
+  sex = sex == WOMAN ? WOMAN : MAN
   return await new User({
     name, pwd, mail, age, sex, alias, uid,
   });
 }
 
 
-export async function regist (req, res, back) {
+exports.regist = async function regist (req, res, back) {
   // 参数验证
   let { name, pwd, mail, alias, age, sex } = req.body
   let unAble = checkRegistInfo(req.body)

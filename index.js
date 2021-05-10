@@ -1,6 +1,6 @@
-import express from 'express';
-import config from './config/index';
-import router from './router';
+const express = require( 'express')
+const config = require( './config/index.js')
+const router = require( './router.js')
 
 let app = express();
 

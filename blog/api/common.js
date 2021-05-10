@@ -1,4 +1,4 @@
-function CRRouter (methods, handle) {
+exports.CRRouter = function (methods, handle) {
   return {
     methods,
     handle

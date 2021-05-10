@@ -8,4 +8,4 @@ const BlogDBCofig = {
   dbName: 'blog'
 }
 
-export default BlogDBCofig;
+module.exports = BlogDBCofig;

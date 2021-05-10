@@ -1,4 +1,4 @@
-export function sendJson (res,data) {
+function sendJson (res,data) {
   res.json({
     data: data,
     time: +new Date()
@@ -16,4 +16,4 @@ sendJson.throwErrow = function (res,code,message) {
   })
 }
 
-export default sendJson
+module.exports = sendJson

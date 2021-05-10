@@ -1,9 +1,9 @@
 
-import { User } from '../../model/user';
-import { generateRandomStr } from '../../../utils/utils'
-import { TIME_SECOND } from './utils'
-import { RES_CODE } from '../../../common/resCode'
-import redis from 'redis';
+const { User } = require('../../model/user')
+const { generateRandomStr } = require('../../../utils/utils')
+const { TIME_SECOND } = require('./utils')
+const { RES_CODE } = require('../../../common/resCode')
+const redis = require('redis')
 
 function findUser (name) {
   return new Promise((res, rej) => {
@@ -79,10 +79,8 @@ function writeLoginUserInfo (token, user) {
   })
 }
 
-
-
 /**  登录接口 post */
-export async function login (req, res, back) {
+exports.login = async function (req, res, back) {
   let user = await validUser(req, res, back);
   
   let token = getTokenByUserId(user.id);

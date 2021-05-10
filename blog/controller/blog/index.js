@@ -1,17 +1,17 @@
-import {
+const {
   tagCreate,
   tagUpdate,
   tagDel,
   tagList
-} from './tag'
-import {
+} = require('./tag')
+const {
   blogCreate,
   blogUpdate,
   blogDel,
   blogList
-} from './blog'
+} = require('./blog')
 
-export default {
+module.exports = {
   tagCreate,
   tagUpdate,
   tagDel,
