@@ -2,7 +2,7 @@
 const BlogDBCofig = {
   port: 27017,
   protocol:'mongodb://',
-  address: '127.0.0.1',
+  address: '172.23.20.92',
   user: 'blog',
   pwd: 'crblog',
   dbName: 'blog'

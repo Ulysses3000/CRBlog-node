@@ -27,8 +27,8 @@ const BLOG_API_TAG = {
 }
 
 const BLOG_API_BLOG = {
-  'blog/list': CRRouter('get', blogCreate),
-  'blog/add': CRRouter('post', blogList),
+  'blog/list': CRRouter('get', blogList),
+  'blog/add': CRRouter('post', blogCreate),
   'blog/del': CRRouter('post', blogDel),
   'blog/update': CRRouter('post', blogUpdate),
   'blog/detail': CRRouter('post', (req, res, back) => { back(RES_CODE.SUCCESS,'test api')})

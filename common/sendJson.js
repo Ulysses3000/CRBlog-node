@@ -1,11 +1,11 @@
 function sendJson (res,data) {
   res.json({
     data: data,
-    time: +new Date()
+    time: +new Date() + ''
   })
 }
 
-sendJson.sendData = (res, data) => { this(res, data) };
+sendJson.sendData = function (res, data) { this(res, data) };
 
 sendJson.throwErrow = function (res,code,message) {
   res.json({

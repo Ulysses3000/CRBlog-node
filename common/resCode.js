@@ -1,4 +1,4 @@
-const RES_CODE = {
+exports.RES_CODE =  {
   SUCCESS: 0, // 成功
   ERROR: 101, // 基础错误码
 
@@ -16,4 +16,3 @@ const RES_CODE = {
   DB_CONNECT_ERROR: 2000, // 数据库错误
   DB_OPERATE_ERROR: 2001, // 数据库操作错误 
 }
-module.export = RES_CODE;

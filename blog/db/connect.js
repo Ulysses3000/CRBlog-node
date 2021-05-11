@@ -13,10 +13,13 @@ let {
 } = blogDbCfg;
 
 const connectUrl = protocol + user + ':' + pwd + '@' + address + ':' + port + '/' + dbName;
+console.log('connectUrl', connectUrl);
+
+mongoose.set('useCreateIndex', true);
 
 exports.BlogDB = mongoose.createConnection(connectUrl, {
   socketTimeoutMS: 0,
   keepAlive: true,
-  reconnectTries: 30,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology:true
 })

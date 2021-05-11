@@ -1,3 +1,5 @@
+const { RES_CODE } = require('../../../common/resCode');
+
 exports.blogCreate = async function  (req, res, back) {
   back(RES_CODE.SUCCESS,'test api blogCreate')
 }

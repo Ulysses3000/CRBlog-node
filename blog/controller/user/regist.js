@@ -2,7 +2,7 @@ const { User } = require( '../../model/user')
 const { generateRandomStr } = require( '../../../utils/utils')
 const { TIME_SECOND } = require( './utils')
 const { RES_CODE } = require( '../../../common/resCode')
-const redis = require( 'redis')
+// const redis = require( 'redis')
 
 /** 检测注册信息 */
 function checkRegistInfo({ name, pwd }) {

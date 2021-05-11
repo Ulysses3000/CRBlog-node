@@ -3,7 +3,7 @@ const { User } = require('../../model/user')
 const { generateRandomStr } = require('../../../utils/utils')
 const { TIME_SECOND } = require('./utils')
 const { RES_CODE } = require('../../../common/resCode')
-const redis = require('redis')
+// const redis = require('redis')
 
 function findUser (name) {
   return new Promise((res, rej) => {
@@ -45,7 +45,7 @@ function ganerateToken (userId) {
   return user.uid + '-' + generateRandomStr(32);
 }
 
-const client = redis.createClient()
+// const client = redis.createClient()
 
 function getTokenByUserId (userId) {
   return new Promise((res, rej) => {
